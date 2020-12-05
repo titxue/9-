@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            background: #eee;
+            display: -webkit-box;
+            display: flex;
+            -webkit-box-align: center;
+            align-items: center;
+            -webkit-box-pack: center;
+            justify-content: center;
+        }
+
+        .lottery {
+            position: relative;
+        }
+
+        ul {
+            width: 240px;
+            height: 240px;
+        }
+
+        .lottery li,
+        .lottery span {
+            width: 80px;
+            height: 80px;
+            border: 1px solid #000;
+            text-align: center;
+            line-height: 80px;
+            position: absolute;
+            background: #fff;
+            font-family: "微软雅黑";
+            font-size: 1.1em;
+        }
+
+        .lottery>ul li:nth-of-type(1),
+        .lottery>ul li:nth-of-type(3),
+        .lottery>ul li:nth-of-type(4),
+        .lottery>ul li:nth-of-type(8) {
+            border-bottom: none;
+        }
+
+        .lottery>ul li:nth-of-type(2),
+        .lottery>ul li:nth-of-type(6) {
+            border-right: none;
+            border-left: none;
+        }
+
+        .lottery>ul li:nth-of-type(1) {
+            left: 0;
+            top: 0;
+        }
+
+        .lottery>ul li:nth-of-type(2) {
+            left: 80px;
+        }
+
+        .lottery>ul li:nth-of-type(3) {
+            left: 160px;
+            top: 0;
+        }
+
+        .lottery>ul li:nth-of-type(4) {
+            left: 160px;
+            top: 80px;
+        }
+
+        .lottery>ul li:nth-of-type(5) {
+            left: 160px;
+            top: 160px;
+        }
+
+        .lottery>ul li:nth-of-type(6) {
+            left: 80px;
+            top: 160px;
+        }
+
+        .lottery>ul li:nth-of-type(7) {
+            left: 0;
+            top: 160px;
+        }
+
+        .lottery>ul li:nth-of-type(8) {
+            left: 0;
+            top: 80px;
+        }
+
+        #start {
+            left: 80px;
+            top: 80px;
+            cursor: pointer;
+            background: yellow;
+            border: none;
+        }
+
+        .active:after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 0, 0.5)
+        }
+#box1{
+width:240px;
+height:80px;
+border:1px solid #000;
+position:absolute;
+top:462px;
+line-height: 40px;
+font-size:20px;
+text-align:center;
+}
+#box1 input{
+	width: 20px;
+}
+
+#box2{
+width:240px;
+height:30px;
+border:1px solid #000;
+position:absolute;
+top:540px;
+border-top:none;
+
+}
+
+    </style>
+</head>
+
+<body>
+    <!--[if lt IE 7]>
+
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+
+        <![endif]-->
+        
+    <div class="lottery">
+        <ul>
+            <li class="lottery-ui">1</li>
+            <li class="lottery-ui">2</li>
+            <li class="lottery-ui">3</li>
+            <li class="lottery-ui">4</li>
+            <li class="lottery-ui">5</li>
+            <li class="lottery-ui">6</li>
+            <li class="lottery-ui">7</li>
+            <li class="lottery-ui">8</li>
+        </ul>
+        <span id="start">开始抽奖</span>
+    </div>
+<div id="box1">
+请选择<br>
+<input type="button" value="1">
+<input type="button" value="2">
+<input type="button" value="3">
+<input type="button" value="4">
+<input type="button" value="5">
+<input type="button" value="6">
+<input type="button" value="7">
+<input type="button" value="8">
+<input type="button" value="9">
+</div>
+<div id="box2">
+
+</div>
+
+    <script src="./index.js"></script>
+    <script>
+		docs = document.querySelectorAll("#box1 input")
+		document.getElementById('start').onclick = function () {
+			alert("選擇數字")
+		}
+		for (var var1 in docs) {
+			docs[var1].onclick = function(){
+				
+				var num =this.value
+				// 抽奖中不可再次点击
+				console.log(num)
+				alert(num)
+				var started = false;
+				
+				function random(from, to) {
+				    return Math.floor(Math.random() * (to - from + 1) + from);
+				}
+				document.getElementById('start').onclick = function () {
+				    if (started) return;
+				    started = true;
+				    new Lottery({
+				        el: '.lottery',
+				        index: 1, //开始位置
+				
+				        total: num, //转动次数
+				
+				        end: random(1, 7), //结束位置 可换成请求返回的索引
+				
+				        speed: 30, //转动速度
+				
+				        handle(obj) {
+				            started = false;
+				            var text = document.querySelectorAll('.lottery-ui')[obj.end].innerHTML;
+							document.querySelector("#box2").innerHTML = "你選擇的是："+num+"&nbsp&nbsp抽獎結果："+text
+				        }
+				    });
+				
+				}
+			}
+			
+		}
+       
+    </script>
+</body>
+
+</html>
